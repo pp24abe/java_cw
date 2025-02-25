@@ -3,7 +3,7 @@
 public class Main {
     public static void main(String[] args) {
 
-        booking mybooking = new booking("ppp","jitty");
-
+       doc doctor = new doc();
+       doctor.setDoc_name("ppp");
     }
 }

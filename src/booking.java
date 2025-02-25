@@ -1,9 +1,8 @@
+import java.util.Date;
+
 public class booking {
 
-
-    public booking(String name,String doc_name) {
-
-
-
-    }
+    private String treatment_name;
+    private Date date;
+    private String doc_name;
 }
