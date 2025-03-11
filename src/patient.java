@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class patient {
 
 
@@ -31,7 +33,18 @@ public class patient {
         return pat_phno;
     }
 
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        patient other = (patient) obj;
+        return Objects.equals(pat_name, other.pat_name) && Objects.equals(pat_phno, other.pat_phno);
+    }
 
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(pat_name, pat_phno);
+    }
 }
+
+
+
