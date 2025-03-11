@@ -1,5 +1,3 @@
-To add a README.md file for your GitHub repository for the booking system, here’s a template you can use. It provides a clear overview of your project, installation instructions, and usage guide.
-
 markdown
 Copy
 Edit
