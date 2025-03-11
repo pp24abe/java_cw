@@ -1,6 +1,4 @@
-markdown
-Copy
-Edit
+
 # Appointment Booking System
 
 ## Overview
