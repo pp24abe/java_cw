@@ -8,6 +8,14 @@ public class patient {
     private  String pat_address;
     private  String pat_phno;
 
+    public patient(String name, String address, String phno,String pat_id) {
+        this.pat_name = name;
+        this.pat_id = pat_id;
+        this.pat_address = address;
+        this.pat_phno = phno;
+
+
+    }
     public  void set_pat_name(String pat_name){
         this.pat_name=pat_name;
     }

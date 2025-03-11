@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Scanner;
 
 public class Doctor {
 
@@ -18,6 +17,10 @@ public class Doctor {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.availableAppointments = availableAppointments;
+        System.out.println("Available appointments for Dr. " + name + " (" + specialization + "):");
+        for ( Appointment appointment : availableAppointments) {
+            System.out.println("- " + appointment.getDate() + " at " + appointment.getTime());
+        }
     }
 
     // Getters

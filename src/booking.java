@@ -1,3 +1,4 @@
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -45,13 +46,13 @@ public class booking extends treatment {
         }
     }
 
-    public patient searchBypatname(String patient_name) {
+    public patient searchBypatname(String patient_id) {
         boolean found = false;
         patient patient1 = null; // Initialize patient1
         for (Map.Entry<patient, List<Appointment>> entry : bookedAppointments.entrySet()) {
             patient patient = entry.getKey();
-            if (patient.get_pat_name().equalsIgnoreCase(patient_name)) {
-                System.out.println("Appointments found for patient: " + patient_name);
+            if (patient.get_pat_id().equalsIgnoreCase(patient_id)) {
+                System.out.println("Appointments found for patient with ID: " + patient_id);
                 for (Appointment appointment : entry.getValue()) {
                     System.out.println(appointment);
                 }
@@ -61,7 +62,7 @@ public class booking extends treatment {
             }
         }
         if (!found) {
-            System.out.println("❌ No appointment found for patient: " + patient_name);
+            System.out.println("❌ No appointment found for patient with ID: " + patient_id);
         }
         return patient1;
     }
@@ -85,6 +86,7 @@ public class booking extends treatment {
 
             for (Appointment appointment : appointments) {
                 System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + appointment.getDoctor());
+                System.out.println("🆔 UID:               " + appointment.getUid());
                 System.out.println("🩺Specialization:  " + appointment.getSpecialization());
                 System.out.println("📅Appointment Date: " + appointment.getDate());
                 System.out.println("⏲️Appointment Time: " + appointment.getTime());
@@ -99,12 +101,12 @@ public class booking extends treatment {
             bookedAppointments.remove(patient);
             System.out.println("✅ Appointment successfully removed!");
         } else {
-            System.out.println("❌ No appointment found for patient: " + patient.get_pat_name());
+            System.out.println("❌ No appointment found for patient with ID: " + patient.get_pat_id());
         }
     }
 
-    public void bookAppointment(patient patient, Doctor doctor, String date, String time) {
-        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization());
+    public void bookAppointment(patient patient, Doctor doctor, String date, String time,String uid) {
+        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(),uid);
 
         // Add appointment for the specific patient
         bookedAppointments.computeIfAbsent(patient, k -> new ArrayList<>()).add(appointment);
@@ -118,16 +120,17 @@ public class booking extends treatment {
         System.out.println("\t\tBOOKING RECEIPT");
         System.out.println("****************************************");
 
-        System.out.println("📅Date & Time:     " + formattedDateTime);
+        System.out.println("📅 DATE & TIME:       " + formattedDateTime);
         System.out.println("----------------------------------------");
-        System.out.println("🤵🏻Patient Name:    " + patient.get_pat_name());
-        System.out.println("👨🏻‍⚕️Doctor Name:     Dr. " + doctor.getName());
-        System.out.println("🩺Specialization:  " + doctor.getSpecialization());
-        System.out.println("📅Appointment Date: " + date);
-        System.out.println("⏲️Appointment Time: " + time);
+        System.out.println("🤵🏻 PATIENT NAME:      " + patient.get_pat_name());
+        System.out.println("🆔 UID:               " + uid);
+        System.out.println("👨🏻‍⚕️ DOCTOR NAME:      Dr. " + doctor.getName());
+        System.out.println("🩺 SPECIALIZATION:    " + doctor.getSpecialization());
+        System.out.println("📅 APPOINTMENT DATE:  " + date);
+        System.out.println("⏲️ APPOINTMENT TIME:  " + time);
         System.out.println("----------------------------------------");
 
-        System.out.println("✅ Appointment successfully booked!");
+        System.out.println("✅ APPOINTMENT SUCCESSFULLY BOOKED!");
         System.out.println("****************************************");
 
         System.out.println("Current list of booked patients:");
