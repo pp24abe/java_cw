@@ -5,14 +5,43 @@ public class Main {
         Scanner user_input = new Scanner(System.in);
         String answer;
 
-        Doctor doctor1 = new Doctor("Punnoose", "Physiotherapist", "72 Aviation Avenue", "90744662220", Arrays.asList(
-                new Appointment("1. Thursday 1st May 2025", "09:30-12:30", "Punnoose", "Physiotherapist",""),
-                new Appointment("2. Friday 2nd May 2025", "10:00-13:00", "Punnoose", "Physiotherapist","")
-        ));
-
         List<Doctor> doctorList = new ArrayList<>();
-        doctorList.add(doctor1);
         booking bookings = new booking(doctorList);
+        doctorList.add(new Doctor("Punnoose", "Physiotherapist", "72 Aviation Avenue", "90744662220", Arrays.asList(
+                new Appointment("Week 1: Monday 5th May 2025", "09:30-12:30", "Dr. Punnoose", "Physiotherapist", ""),
+                new Appointment("Week 2: Tuesday 13th May 2025", "10:00-13:00", "Dr. Punnoose", "Physiotherapist", ""),
+                new Appointment("Week 3: Wednesday 21st May 2025", "11:00-14:00", "Dr. Punnoose", "Physiotherapist", ""),
+                new Appointment("Week 4: Thursday 29th May 2025", "12:00-15:00", "Dr. Punnoose", "Physiotherapist", "")
+        )));
+
+        doctorList.add(new Doctor("Smith", "Physiotherapist", "34 Medway Street", "90123456789", Arrays.asList(
+                new Appointment("Week 1: Tuesday 6th May 2025", "08:30-11:30", "Dr. Smith", "Physiotherapist", ""),
+                new Appointment("Week 2: Wednesday 14th May 2025", "09:00-12:00", "Dr. Smith", "Physiotherapist", ""),
+                new Appointment("Week 3: Thursday 22nd May 2025", "10:30-13:30", "Dr. Smith", "Physiotherapist", ""),
+                new Appointment("Week 4: Friday 30th May 2025", "11:00-14:00", "Dr. Smith", "Physiotherapist", "")
+        )));
+
+        doctorList.add(new Doctor("Mathew", "Physiotherapist", "56 Oakwood Lane", "91234567890", Arrays.asList(
+                new Appointment("Week 1: Wednesday 7th May 2025", "09:00-12:00", "Dr. Mathew", "Physiotherapist", ""),
+                new Appointment("Week 2: Thursday 15th May 2025", "10:30-13:30", "Dr. Mathew", "Physiotherapist", ""),
+                new Appointment("Week 3: Friday 23rd May 2025", "11:00-14:00", "Dr. Mathew", "Physiotherapist", ""),
+                new Appointment("Week 4: Monday 2nd June 2025", "12:00-15:00", "Dr. Mathew", "Physiotherapist", "")
+        )));
+
+        doctorList.add(new Doctor("John", "Physiotherapist", "78 Willow Street", "92345678901", Arrays.asList(
+                new Appointment("Week 1: Thursday 8th May 2025", "08:30-11:30", "Dr. John", "Physiotherapist", ""),
+                new Appointment("Week 2: Friday 16th May 2025", "09:00-12:00", "Dr. John", "Physiotherapist", ""),
+                new Appointment("Week 3: Monday 26th May 2025", "10:30-13:30", "Dr. John", "Physiotherapist", ""),
+                new Appointment("Week 4: Tuesday 3rd June 2025", "11:00-14:00", "Dr. John", "Physiotherapist", "")
+        )));
+
+        doctorList.add(new Doctor("Paul", "Physiotherapist", "90 Birchwood Road", "93456789012", Arrays.asList(
+                new Appointment("Week 1: Friday 9th May 2025", "09:30-12:30", "Dr. Paul", "Physiotherapist", ""),
+                new Appointment("Week 2: Monday 19th May 2025", "10:00-13:00", "Dr. Paul", "Physiotherapist", ""),
+                new Appointment("Week 3: Tuesday 27th May 2025", "11:00-14:00", "Dr. Paul", "Physiotherapist", ""),
+                new Appointment("Week 4: Wednesday 4th June 2025", "12:00-15:00", "Dr. Paul", "Physiotherapist", "")
+        )));
+
 
 
         do {
@@ -66,7 +95,7 @@ public class Main {
                 telephone = user_input.nextLine();
             }while (telephone.length() != 10);
         }
-        String uid = (user_name.length() > 3 ? user_name.substring(0, 3) : user_name) + (telephone.length() >= 3 ? telephone.substring(telephone.length() - 3) : telephone);
+        String uid = (user_name.length() > 3 ? user_name.substring(0, 3) : user_name) + telephone.substring(telephone.length() - 3);
         System.out.println("\n🔹 UNIQUE ID GENERATED: " + uid);
         System.out.println("⚠️ Please save or remember this ID for future use.");
         patient patient = new patient(user_name, user_address, telephone,uid);
@@ -76,42 +105,46 @@ public class Main {
         System.out.print("Enter your choice: ");
         int choice = user_input.nextInt();
         user_input.nextLine();
-
+        String doctor_namee;
         switch (choice) {
             case 1:
                 System.out.print("Enter specialization: ");
                 String area_of_expertise = user_input.nextLine();
                 bookings.searchByspecialization(area_of_expertise);
-                bookSelectedAppointment(user_input, bookings, doctorList, area_of_expertise, null, patient,uid);
+                System.out.println("Enter the doctor's full name: ");
+                doctor_namee = user_input.nextLine();
+                bookSelectedAppointment(user_input, bookings, doctorList, area_of_expertise, patient,uid,doctor_namee);
                 break;
             case 2:
                 System.out.print("Enter doctor's full name: ");
-                String doctor_name = user_input.nextLine();
-                bookings.searchBydocname(doctor_name);
-                bookSelectedAppointment(user_input, bookings, doctorList, null, doctor_name, patient,uid);
+                doctor_namee = user_input.nextLine();
+                bookings.searchBydocname(doctor_namee);
+                bookSelectedAppointment(user_input, bookings, doctorList, null, patient,uid,doctor_namee);
                 break;
             default:
                 System.out.println("❌ Invalid choice.");
         }
     }
 
-    private static void bookSelectedAppointment(Scanner user_input, booking bookings, List<Doctor> doctorList, String specialization, String doctor_name, patient patient,String uid) {
+    private static void bookSelectedAppointment(Scanner user_input, booking bookings, List<Doctor> doctorList, String specialization, patient patient,String uid,String doctor_namee) {
         Doctor selectedDoctor = null;
 
         for (Doctor doctor : doctorList) {
-            if ((specialization != null && doctor.getSpecialization().equalsIgnoreCase(specialization)) ||
-                    (doctor_name != null && doctor.getName().equalsIgnoreCase(doctor_name))) {
-                selectedDoctor = doctor;
-                break;
-            }
-        }
 
+            if (specialization == null || doctor.getSpecialization().equalsIgnoreCase(specialization)) {
+
+                if (doctor.getName().equalsIgnoreCase(doctor_namee)) {
+                    selectedDoctor = doctor;
+                    break;
+                }
+            }
+
+        }
         if (selectedDoctor == null) {
             System.out.println("❌ No doctor found.");
             return;
         }
-
-        System.out.print("Enter appointment number: ");
+        System.out.print("Enter the week of appointment: ");
         int choice1 = user_input.nextInt();
         user_input.nextLine();
 
@@ -121,7 +154,7 @@ public class Main {
         }
 
         Appointment chosenAppointment = selectedDoctor.getAvailableAppointments().get(choice1 - 1);
-        bookings.bookAppointment(patient, selectedDoctor, chosenAppointment.getDate(), chosenAppointment.getTime(),uid);
+        bookings.bookAppointment(patient, selectedDoctor, chosenAppointment.getDate(), chosenAppointment.getTime(),uid,doctor_namee);
     }
 
     private static void removeAppointment(Scanner user_input, booking bookings) {

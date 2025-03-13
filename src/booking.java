@@ -86,8 +86,8 @@ public class booking extends treatment {
 
             for (Appointment appointment : appointments) {
                 System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + appointment.getDoctor());
-                System.out.println("🆔 UID:               " + appointment.getUid());
-                System.out.println("🩺Specialization:  " + appointment.getSpecialization());
+                System.out.println("🆔 UID:             " + appointment.getUid());
+                System.out.println("🩺Specialization:   " + appointment.getSpecialization());
                 System.out.println("📅Appointment Date: " + appointment.getDate());
                 System.out.println("⏲️Appointment Time: " + appointment.getTime());
                 System.out.println("----------------------------------------\n\n");
@@ -105,8 +105,14 @@ public class booking extends treatment {
         }
     }
 
-    public void bookAppointment(patient patient, Doctor doctor, String date, String time,String uid) {
-        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(),uid);
+    public void bookAppointment(patient patient, Doctor doctor, String date, String time,String uid,String doctor_namee) {
+        if (!doctor.getName().equalsIgnoreCase(doctor_namee)) {
+            System.out.println("Error: Doctor name does not match.");
+            return; // Stop execution if the doctor's name does not match
+        }
+
+        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), uid);
+
 
         // Add appointment for the specific patient
         bookedAppointments.computeIfAbsent(patient, k -> new ArrayList<>()).add(appointment);
@@ -124,7 +130,7 @@ public class booking extends treatment {
         System.out.println("----------------------------------------");
         System.out.println("🤵🏻 PATIENT NAME:      " + patient.get_pat_name());
         System.out.println("🆔 UID:               " + uid);
-        System.out.println("👨🏻‍⚕️ DOCTOR NAME:      Dr. " + doctor.getName());
+        System.out.println("👨🏻‍⚕️ DOCTOR NAME:       Dr. " + doctor.getName());
         System.out.println("🩺 SPECIALIZATION:    " + doctor.getSpecialization());
         System.out.println("📅 APPOINTMENT DATE:  " + date);
         System.out.println("⏲️ APPOINTMENT TIME:  " + time);
@@ -133,10 +139,8 @@ public class booking extends treatment {
         System.out.println("✅ APPOINTMENT SUCCESSFULLY BOOKED!");
         System.out.println("****************************************");
 
-        System.out.println("Current list of booked patients:");
-        for (patient p : bookedAppointments.keySet()) {
-            System.out.println("- " + p.get_pat_name());
-        }
+
+
     }
 
 }
