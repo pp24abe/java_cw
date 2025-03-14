@@ -7,12 +7,13 @@ public class patient {
     private  String pat_id;
     private  String pat_address;
     private  String pat_phno;
-
-    public patient(String name, String address, String phno,String pat_id) {
+    private String biud;
+    public patient(String name, String address, String phno,String pat_id,String buid) {
         this.pat_name = name;
         this.pat_id = pat_id;
         this.pat_address = address;
         this.pat_phno = phno;
+        this.biud = buid;
 
 
     }
@@ -37,6 +38,10 @@ public class patient {
     public String get_pat_address() {
         return pat_address;
     }
+    public String getBiud(){
+        return biud;
+    }
+
     public String get_pat_phno() {
         return pat_phno;
     }
