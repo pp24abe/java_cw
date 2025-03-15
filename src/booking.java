@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class booking extends treatment {
 
@@ -100,7 +101,7 @@ public class booking extends treatment {
             patient patient = entry.getKey();
             if (patient.get_pat_name().equalsIgnoreCase(patname)) {
 
-                System.out.println("Appointments found for patient with ID: " + patient.getBiud());
+                System.out.println("✅Appointments found for patient with ID: " + patient.getBiud());
                 System.out.println("\n****************************************");
                 System.out.println("\t\tBOOKED APPOINTMENTS");
                 System.out.println("****************************************");
@@ -143,7 +144,7 @@ public class booking extends treatment {
             return; // Stop execution if the doctor's name does not match
         }
         treatment treatment= new treatment();
-        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), uid,buid,"BOOKED",doctor.getTreatment());
+        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), uid,buid,"BOOKED",doctor.getTreatment(),0);
 
 
         // Add appointment for the specific patient
@@ -188,7 +189,23 @@ public class booking extends treatment {
             patient patient = entry.getKey();
             if (patient.getBiud().equalsIgnoreCase(BookinID)) {
                 for (Appointment appointment : entry.getValue()) {
-                    appointment.setStatus(status);
+                    if (appointment.getBuid().equalsIgnoreCase(BookinID)) {
+                        if (appointment.getStatus().equalsIgnoreCase("BOOKED")) {
+                            appointment.setStatus(status);
+                            appointment.changed(0);
+                        } else if (appointment.getStatus().equalsIgnoreCase("CANCELLED")) {
+                            System.out.println("Your appointment has been cancelled, and you cannot change it.");
+                            appointment.changed(1);
+                            break;
+                        } else if (appointment.getStatus().equalsIgnoreCase("ATTENDED")) {
+                            System.out.println("Your appointment has already been marked as attended, and you cannot change it.");
+                            appointment.changed(1);
+                            break;
+                        }
+                    }
+                }
+                if (!patient.getBiud().equals(BookinID)) {
+                    System.out.println("Error: BookingID does not match.");
                 }
                 found = true;
                 break;
@@ -214,19 +231,24 @@ public class booking extends treatment {
 
 
                 for (Appointment appointment : entry.getValue()) {
-                    System.out.println("\n✅ APPOINTMENT STATUS SUCCESSFULLY SET TO "+appointment.getStatus()+"!");
-                    System.out.println("\n****************************************");
-                    System.out.println("\t\tCHANGE STATUS RECEIPT");
-                    System.out.println("****************************************");
-                    System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + appointment.getDoctor());
-                    System.out.println("🆔 UID:             " + appointment.getUid());
-                    System.out.println("🆔 Booking ID:      " + appointment.getBuid());
-                    System.out.println("🩺 TREATMENT NAME:  " + appointment.getTreatmentname());
-                    System.out.println("🩺Specialization:   " + appointment.getSpecialization());
-                    System.out.println("📅Appointment Date: " + appointment.getDate());
-                    System.out.println("⏲️Appointment Time: " + appointment.getTime());
-                    System.out.println("❓Appointment Status: " + appointment.getStatus());
-                    System.out.println("----------------------------------------\n\n");
+
+                    if(appointment.getBuid().equalsIgnoreCase(bookingId)&& appointment.getchanged()==2) {
+                        System.out.println("\n✅ APPOINTMENT STATUS SUCCESSFULLY SET TO "+appointment.getStatus()+"!");
+                        System.out.println("\n****************************************");
+                        System.out.println("\t\tCHANGE STATUS RECEIPT");
+                        System.out.println("****************************************");
+                        System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + appointment.getDoctor());
+                        System.out.println("🆔 UID:             " + appointment.getUid());
+                        System.out.println("🆔 Booking ID:      " + appointment.getBuid());
+                        System.out.println("🩺 TREATMENT NAME:  " + appointment.getTreatmentname());
+                        System.out.println("🩺Specialization:   " + appointment.getSpecialization());
+                        System.out.println("📅Appointment Date: " + appointment.getDate());
+                        System.out.println("⏲️Appointment Time: " + appointment.getTime());
+                        System.out.println("❓Appointment Status: " + appointment.getStatus());
+                        System.out.println("----------------------------------------\n\n");
+                    }
+
+
                 }
                 found = true;
                 break;
@@ -241,5 +263,83 @@ public class booking extends treatment {
         return found;
     }
 
+    public void generateClinicReport() {
+        if (bookedAppointments.isEmpty()) {
+            System.out.println("\n❌ No appointments available for the report.");
+            return;
+        }
+
+        Map<Doctor, List<Appointment>> doctorAppointments = new HashMap<>();
+
+        for (Map.Entry<patient, List<Appointment>> entry : bookedAppointments.entrySet()) {
+            patient pat = entry.getKey();
+            for (Appointment appointment : entry.getValue()) {
+                Doctor doctor = findDoctorByName(appointment.getDoctor());
+                if (doctor != null) {
+                    doctorAppointments.computeIfAbsent(doctor, k -> new ArrayList<>()).add(appointment);
+                }
+            }
+        }
+
+        System.out.println("\n============================================================================================================");
+        System.out.println("                               🏥 CLINIC REPORT - APPOINTMENTS LIST");
+        System.out.println("============================================================================================================");
+
+        System.out.printf("| %-20s | %-15s | %-25s \t\t \t\t\t\t\t| %-9s|\n", "Doctor", "Patient", "Date & Time", "Status");
+        System.out.println("------------------------------------------------------------------------------------------------------------");
+
+        for (Map.Entry<Doctor, List<Appointment>> entry : doctorAppointments.entrySet()) {
+            Doctor doctor = entry.getKey();
+            for (Appointment appointment : entry.getValue()) {
+                patient pat = findPatientByAppointment(appointment);
+                System.out.printf("| %-20s | %-15s | %-25s \t\t\t| %-9s| \n",
+                        "Dr. " + doctor.getName(),
+                        pat != null ? pat.get_pat_name() : "Unknown",
+                        appointment.getDate() + " at " + appointment.getTime(),
+                        appointment.getStatus());
+            }
+        }
+
+        List<Map.Entry<Doctor, List<Appointment>>> sortedDoctors = doctorAppointments.entrySet().stream()
+                .sorted((d1, d2) -> Long.compare(
+                        d2.getValue().stream().filter(a -> a.getStatus().equalsIgnoreCase("ATTENDED")).count(),
+                        d1.getValue().stream().filter(a -> a.getStatus().equalsIgnoreCase("ATTENDED")).count()
+                ))
+                .collect(Collectors.toList());
+
+        System.out.println("\n============================================================================================================");
+        System.out.println("                                                            🏆 PHYSIOTHERAPISTS BY ATTENDED APPOINTMENTS");
+        System.out.println("============================================================================================================");
+        System.out.printf("                                                             | %-20s | %-12s |\n", "Doctor", "Attended Count");
+        System.out.println("------------------------------------------------------------------------------------------------------------");
+
+        for (Map.Entry<Doctor, List<Appointment>> entry : sortedDoctors) {
+            long attendedCount = entry.getValue().stream()
+                    .filter(a -> a.getStatus().equalsIgnoreCase("ATTENDED"))
+                    .count();
+            System.out.printf("                                                             | %-20s | \t\t%-8d |\n", "Dr. " + entry.getKey().getName(), attendedCount);
+        }
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+    }
+
+    // Helper methods remain unchanged
+    private Doctor findDoctorByName(String name) {
+        for (Doctor doctor : doctors) {
+            if (doctor.getName().equalsIgnoreCase(name)) {
+                return doctor;
+            }
+        }
+        return null;
+    }
+
+    private patient findPatientByAppointment(Appointment appointment) {
+        for (Map.Entry<patient, List<Appointment>> entry : bookedAppointments.entrySet()) {
+            if (entry.getValue().contains(appointment)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 
 }
+

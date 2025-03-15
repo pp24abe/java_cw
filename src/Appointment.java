@@ -7,7 +7,8 @@ public class Appointment {
     private String buid;
     private String status;
     private String treatmentname;
-    public Appointment(String date, String time, String doctor, String specialization,String uid,String buid,String status,String treatmentname) {
+    private int changed;
+    public Appointment(String date, String time, String doctor, String specialization,String uid,String buid,String status,String treatmentname,int changed) {
         this.date = date;
         this.time = time;
         this.doctor = doctor;
@@ -16,6 +17,10 @@ public class Appointment {
         this.buid = buid;
         this.status = status;
         this.treatmentname = treatmentname;
+        this.changed = changed;
+    }
+    public void changed(int changed){
+        this.changed = changed+2;
     }
 
     public String getDate() {
@@ -47,6 +52,9 @@ public class Appointment {
     }
     public String getTreatmentname() {
         return treatmentname;
+    }
+    public int getchanged() {
+        return changed;
     }
     @Override
     public String toString() {
