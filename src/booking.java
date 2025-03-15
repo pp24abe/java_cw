@@ -16,10 +16,6 @@ public class booking extends treatment {
         this.bookedAppointments = new HashMap<>();
     }
 
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
     public boolean searchByspecialization(String specialization) {
         boolean found = false;
         for (Doctor doctor : doctors) {
@@ -36,16 +32,21 @@ public class booking extends treatment {
 
     public boolean searchBydocname(String doctor_name) {
         boolean found = false;
-        for (Doctor doctor : doctors) {
+        for (Doctor doctor : doctors)
             if (doctor.getName().equalsIgnoreCase(doctor_name)) {
                 doctor.showAvailableAppointments();
                 found = true;
             }
-        }
         if (!found) {
             System.out.println("❌ No doctor found with name: " + doctor_name);
         }
         return found;
+    }
+
+
+    public void bookAppointmenthardcode(patient patient, Doctor doctor, String date, String time,String uid,String doctor_namee,String buid) {
+        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), uid,buid,"BOOKED",doctor.getTreatment(),0);
+        bookedAppointments.computeIfAbsent(patient, k -> new ArrayList<>()).add(appointment);
     }
 
     public patient searchBypatname(String patient_id) {
@@ -143,7 +144,6 @@ public class booking extends treatment {
             System.out.println("Error: Doctor name does not match.");
             return; // Stop execution if the doctor's name does not match
         }
-        treatment treatment= new treatment();
         Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), uid,buid,"BOOKED",doctor.getTreatment(),0);
 
 
@@ -219,10 +219,10 @@ public class booking extends treatment {
 
 
     }
-    public boolean viewBooking(String bookingId ) {
+    public void viewBooking(String bookingId ) {
         if (bookedAppointments.isEmpty()) {
             System.out.println("No appointments booked.");
-            return false;
+            return;
         }
         boolean found = false;
         for (Map.Entry<patient, List<Appointment>> entry : bookedAppointments.entrySet()) {
@@ -260,7 +260,6 @@ public class booking extends treatment {
         }
 
 
-        return found;
     }
 
     public void generateClinicReport() {
@@ -272,7 +271,6 @@ public class booking extends treatment {
         Map<Doctor, List<Appointment>> doctorAppointments = new HashMap<>();
 
         for (Map.Entry<patient, List<Appointment>> entry : bookedAppointments.entrySet()) {
-            patient pat = entry.getKey();
             for (Appointment appointment : entry.getValue()) {
                 Doctor doctor = findDoctorByName(appointment.getDoctor());
                 if (doctor != null) {
@@ -305,7 +303,7 @@ public class booking extends treatment {
                         d2.getValue().stream().filter(a -> a.getStatus().equalsIgnoreCase("ATTENDED")).count(),
                         d1.getValue().stream().filter(a -> a.getStatus().equalsIgnoreCase("ATTENDED")).count()
                 ))
-                .collect(Collectors.toList());
+                .toList();
 
         System.out.println("\n============================================================================================================");
         System.out.println("                                                            🏆 PHYSIOTHERAPISTS BY ATTENDED APPOINTMENTS");

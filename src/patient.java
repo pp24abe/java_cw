@@ -14,8 +14,6 @@ public class patient {
         this.pat_address = address;
         this.pat_phno = phno;
         this.biud = buid;
-
-
     }
     public  void set_pat_name(String pat_name){
         this.pat_name=pat_name;

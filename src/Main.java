@@ -43,16 +43,40 @@ public class Main {
                 new Appointment("Week 4: Wednesday 4th June 2025", "12:00-15:00", "Dr. Paul", "Physiotherapist", "","","","",0)
         ),"Neural Mobilisation"));
 
+        // Patients
         patient patient1 = new patient("Alice Johnson", "10 Green St, London", "9123456789", "Ali678", "20250305123001");
         patient patient2 = new patient("Bob Williams", "20 Red St, Manchester", "9234567890", "Bob890", "20250306104502");
         patient patient3 = new patient("Charlie Brown", "30 Blue St, Birmingham", "9345678901", "Cha901", "20250307153003");
-        patient patient4 = new patient("Herny Smith", "33 Blue St, Birmingham", "9345678901", "Cha901", "202503071563004");
+        patient patient4 = new patient("Henry Smith", "33 Blue St, Birmingham", "9456789012", "Hen567", "202503071563004");
 
-        // Hardcoded Appointments for Patients
-        bookings.bookAppointment(patient1, doctorList.get(0), "Week 1: Monday 5th May 2025", "09:30-12:30", "Ali678", "Punnoose", "20250305123001");
-        bookings.bookAppointment(patient2, doctorList.get(1), "Week 1: Tuesday 6th May 2025", "08:30-11:30", "Bob890", "Smith", "20250306104502");
-        bookings.bookAppointment(patient3, doctorList.get(0), "Week 1: Monday 5th May 2025", "09:30-12:30", "Cha901", "Punnoose", "20250307153003");
-        bookings.bookAppointment(patient4, doctorList.get(0), "Week 1: Monday 5th May 2025", "09:30-12:30", "Cha801", "Punnoose", "202503071563004");
+        patient patient5 = new patient("David Wilson", "40 Green Ave, Liverpool", "9567890123", "Dav234", "20250308121505");
+        patient patient6 = new patient("Emma Davis", "50 Red Road, Leeds", "9678901234", "Emm456", "20250309104506");
+        patient patient7 = new patient("Franklin White", "60 Blue Lane, Bristol", "9789012345", "Fra789", "20250310153007");
+        patient patient8 = new patient("Grace Hall", "70 Yellow St, Sheffield", "9890123456", "Gra123", "20250311123008");
+        patient patient9 = new patient("Harry Green", "80 Purple Ave, Edinburgh", "9901234567", "Har456", "20250312104509");
+        patient patient10 = new patient("Isabella Moore", "90 Orange Rd, Glasgow", "9012345678", "Isa678", "20250313153010");
+        patient patient11 = new patient("Jack Turner", "100 White Blvd, Cardiff", "9123456789", "Jac890", "20250314123011");
+        patient patient12 = new patient("Katie Adams", "110 Black St, Belfast", "9234567890", "Kat234", "20250315104512");
+        patient patient13 = new patient("Liam Scott", "120 Grey Lane, York", "9345678901", "Lia345", "20250316153013");
+        patient patient14 = new patient("Mia Carter", "130 Brown Ave, Newcastle", "9456789012", "Mia567", "20250317123014");
+
+// Hardcoded Appointments for Patients with Correct Doctor Names
+        bookings.bookAppointmenthardcode(patient1, doctorList.get(0), "Week 1: Monday 5th May 2025", "09:30-12:30", "Ali678", "Punnoose", "20250305123001");
+        bookings.bookAppointmenthardcode(patient2, doctorList.get(1), "Week 1: Tuesday 6th May 2025", "08:30-11:30", "Bob890", "Smith", "20250306104502");
+        bookings.bookAppointmenthardcode(patient3, doctorList.get(2), "Week 1: Wednesday 7th May 2025", "10:00-12:00", "Cha901", "Mathew", "20250307153003");
+        bookings.bookAppointmenthardcode(patient4, doctorList.get(3), "Week 1: Thursday 8th May 2025", "14:00-16:30", "Hen567", "Paul", "202503071563004");
+
+        bookings.bookAppointmenthardcode(patient5, doctorList.get(4), "Week 2: Friday 9th May 2025", "09:00-11:30", "Dav234", "John", "20250308121505");
+        bookings.bookAppointmenthardcode(patient6, doctorList.get(0), "Week 2: Monday 12th May 2025", "09:30-12:30", "Emm456", "Punnoose", "20250309104506");
+        bookings.bookAppointmenthardcode(patient7, doctorList.get(1), "Week 2: Tuesday 13th May 2025", "10:00-12:00", "Fra789", "Smith", "20250310153007");
+        bookings.bookAppointmenthardcode(patient8, doctorList.get(2), "Week 2: Wednesday 14th May 2025", "11:30-14:00", "Gra123", "Mathew", "20250311123008");
+        bookings.bookAppointmenthardcode(patient9, doctorList.get(3), "Week 3: Thursday 15th May 2025", "12:00-14:00", "Har456", "Paul", "20250312104509");
+        bookings.bookAppointmenthardcode(patient10, doctorList.get(4), "Week 3: Friday 16th May 2025", "08:30-10:30", "Isa678", "John", "20250313153010");
+
+        bookings.bookAppointmenthardcode(patient11, doctorList.get(0), "Week 4: Monday 19th May 2025", "09:00-11:00", "Jac890", "Punnoose", "20250314123011");
+        bookings.bookAppointmenthardcode(patient12, doctorList.get(1), "Week 4: Tuesday 20th May 2025", "10:30-12:30", "Kat234", "Smith", "20250315104512");
+        bookings.bookAppointmenthardcode(patient13, doctorList.get(2), "Week 5: Wednesday 21st May 2025", "12:00-14:30", "Lia345", "Mathew", "20250316153013");
+        bookings.bookAppointmenthardcode(patient14, doctorList.get(3), "Week 5: Thursday 22nd May 2025", "14:30-16:30", "Mia567", "Paul", "20250317123014");
 
         do {
             System.out.println("\n---------------------------------------------");
