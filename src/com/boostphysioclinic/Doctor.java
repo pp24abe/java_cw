@@ -50,7 +50,7 @@ public class Doctor {
         return treatment;
     }
 
-    public void showAvailableAppointments() {t
+    public void showAvailableAppointments() {
         System.out.print("\nDoctor: " + name + " (Specialization: " + specialization + ") , treatementname : "+ treatment );
         for (Appointment a : availableAppointments) {
             System.out.println("📅 " + a.getDate() + " | ⏰ " + a.getTime());
