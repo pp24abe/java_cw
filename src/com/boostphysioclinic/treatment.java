@@ -1,6 +1,8 @@
+package com.boostphysioclinic;
+
 import java.util.Date;
 
-public class treatment {
+public class treatment  {
 
     private String treatment_name;
     private Date date;

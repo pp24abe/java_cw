@@ -1,17 +1,16 @@
+package com.boostphysioclinic;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.*;
 
-public class booking extends treatment {
+public class booking extends Doctor{
 
     private List<Doctor> doctors;
     private HashMap<patient, List<Appointment>> bookedAppointments;
 
     public booking(List<Doctor> doctors) {
+        super();
         this.doctors = doctors;
         this.bookedAppointments = new HashMap<>();
     }
@@ -44,8 +43,8 @@ public class booking extends treatment {
     }
 
 
-    public void bookAppointmenthardcode(patient patient, Doctor doctor, String date, String time,String uid,String doctor_namee,String buid) {
-        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), uid,buid,"BOOKED",doctor.getTreatment(),0);
+    public void bookAppointmenthardcode(patient patient, Doctor doctor, String date, String time,int pid,String doctor_namee,String buid) {
+        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), pid,buid,"BOOKED",doctor.getTreatment(),0);
         bookedAppointments.computeIfAbsent(patient, k -> new ArrayList<>()).add(appointment);
     }
 
@@ -108,7 +107,7 @@ public class booking extends treatment {
                 System.out.println("****************************************");
                 for (Appointment appointment : entry.getValue()) {
                     System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + appointment.getDoctor());
-                    System.out.println("🆔 UID:             " + appointment.getUid());
+                    System.out.println("🆔 UID:             " + appointment.getpid());
                     System.out.println("🆔 Booking ID:      " + appointment.getBuid());
                     System.out.println("🩺 TREATMENT NAME:  " + appointment.getTreatmentname());
                     System.out.println("🩺Specialization:   " + appointment.getSpecialization());
@@ -139,12 +138,12 @@ public class booking extends treatment {
         }
     }
 
-    public void bookAppointment(patient patient, Doctor doctor, String date, String time,String uid,String doctor_namee,String buid) {
+    public void bookAppointment(patient patient, Doctor doctor, String date, String time,int pid,String doctor_namee,String buid) {
         if (!doctor.getName().equalsIgnoreCase(doctor_namee)) {
             System.out.println("Error: Doctor name does not match.");
             return; // Stop execution if the doctor's name does not match
         }
-        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), uid,buid,"BOOKED",doctor.getTreatment(),0);
+        Appointment appointment = new Appointment(date, time, doctor.getName(), doctor.getSpecialization(), pid,buid,"BOOKED",doctor.getTreatment(),0);
 
 
         // Add appointment for the specific patient
@@ -162,7 +161,7 @@ public class booking extends treatment {
         System.out.println("📅 DATE & TIME:       " + formattedDateTime);
         System.out.println("----------------------------------------");
         System.out.println("🤵🏻 PATIENT NAME:      " + patient.get_pat_name());
-        System.out.println("🆔 UID:               " + uid);
+        System.out.println("🆔 UID:               " + pid);
         System.out.println("🆔 Booking ID:        " + buid);
         System.out.println("👨🏻‍⚕️ DOCTOR NAME:       Dr. " + doctor.getName());
         System.out.println("🩺 TREATMENT NAME:    " + appointment.getTreatmentname());
@@ -238,7 +237,7 @@ public class booking extends treatment {
                         System.out.println("\t\tCHANGE STATUS RECEIPT");
                         System.out.println("****************************************");
                         System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + appointment.getDoctor());
-                        System.out.println("🆔 UID:             " + appointment.getUid());
+                        System.out.println("🆔 UID:             " + appointment.getpid());
                         System.out.println("🆔 Booking ID:      " + appointment.getBuid());
                         System.out.println("🩺 TREATMENT NAME:  " + appointment.getTreatmentname());
                         System.out.println("🩺Specialization:   " + appointment.getSpecialization());

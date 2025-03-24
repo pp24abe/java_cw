@@ -1,36 +1,29 @@
+package com.boostphysioclinic;
+
 import java.util.Objects;
 
 public class patient {
 
 
     private String pat_name;
-    private  String pat_id;
+    int  pat_id;
     private  String pat_address;
     private  String pat_phno;
     private String biud;
-    public patient(String name, String address, String phno,String pat_id,String buid) {
+    public patient(String name, String address, String phno,int pat_id,String buid) {
         this.pat_name = name;
         this.pat_id = pat_id;
         this.pat_address = address;
         this.pat_phno = phno;
         this.biud = buid;
     }
-    public  void set_pat_name(String pat_name){
-        this.pat_name=pat_name;
-    }
-    public  void set_pat_id(String pat_id){
-        this.pat_id=pat_id;
-    }
-    public  void set_pat_address(String pat_address){
-        this.pat_address=pat_address;
-    }
-    public  void set_pat_phno(String pat_phno){
-        this.pat_phno=pat_phno;
-    }
+
+
+
     public String get_pat_name() {
         return pat_name;
     }
-    public String get_pat_id() {
+    public int get_pat_id() {
         return pat_id;
     }
     public String get_pat_address() {
@@ -40,9 +33,6 @@ public class patient {
         return biud;
     }
 
-    public String get_pat_phno() {
-        return pat_phno;
-    }
 
     public boolean equals(Object obj) {
         if (this == obj) return true;

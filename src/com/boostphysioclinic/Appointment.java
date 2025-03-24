@@ -1,24 +1,29 @@
+package com.boostphysioclinic;
+
 public class Appointment {
     private String date;
     private String time;
     private String doctor;
     private String specialization;
-    private String uid;
     private String buid;
     private String status;
     private String treatmentname;
     private int changed;
-    public Appointment(String date, String time, String doctor, String specialization,String uid,String buid,String status,String treatmentname,int changed) {
+    private int pid;
+    public Appointment(String date, String time, String doctor, String specialization,int pid,String buid,String status,String treatmentname,int changed) {
         this.date = date;
         this.time = time;
         this.doctor = doctor;
         this.specialization = specialization;
-        this.uid = uid;
+
         this.buid = buid;
         this.status = status;
         this.treatmentname = treatmentname;
         this.changed = changed;
+        this.pid = pid;
     }
+
+
     public void changed(int changed){
         this.changed = changed+2;
     }
@@ -38,9 +43,6 @@ public class Appointment {
     public String getSpecialization() {
         return specialization;
     }
-    public String getUid() {
-        return uid;
-    }
     public String getBuid() {
         return buid;
     }
@@ -55,6 +57,9 @@ public class Appointment {
     }
     public int getchanged() {
         return changed;
+    }
+    public int getpid() {
+        return pid;
     }
     @Override
     public String toString() {
