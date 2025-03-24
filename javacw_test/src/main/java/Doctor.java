@@ -1,4 +1,4 @@
-package com.boostphysioclinic;
+
 
 import java.util.List;
 public class Doctor {
@@ -39,19 +39,12 @@ public class Doctor {
         return availableAppointments;
     }
 
-    public String getDoc_number() {
-        return phoneNumber;
-    }
-
-    public void setDoc_number(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
     public String getTreatment() {
         return treatment;
     }
 
     public void showAvailableAppointments() {
-        System.out.print("\nDoctor: " + name + " (Specialization: " + specialization + ") , treatementname : "+ treatment+"\n" );
+        System.out.println("\nDoctor: " + name + " (Specialization: " + specialization + ") , treatementname : "+ treatment );
         for (Appointment a : availableAppointments) {
             System.out.println("📅 " + a.getDate() + " | ⏰ " + a.getTime());
 

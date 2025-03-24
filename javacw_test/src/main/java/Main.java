@@ -1,4 +1,3 @@
-package com.boostphysioclinic;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -115,7 +114,7 @@ public class Main extends booking {
                     removeAppointment(user_input, bookings);
                     break;
                 case 3:
-                     viewbooking(user_input,bookings);
+                    viewbooking(user_input,bookings);
                     break;
                 case 4: bookings.generateClinicReport();
                     break;
@@ -133,7 +132,7 @@ public class Main extends booking {
         System.out.println("\nThank you for using the Appointment Booking System. Have a great day!");
         user_input.close();
     }
-    
+
     private static void makeAppointment(Scanner user_input, booking bookings, List<Doctor> doctorList) {
         System.out.print("\nPlease enter the patient's full name: ");
         String user_name = user_input.nextLine();
@@ -190,7 +189,7 @@ public class Main extends booking {
                             System.out.println("\nEnter the doctor's full name: ");
                             doctor_namee = user_input.nextLine();
                             bookings.showtimetable(doctor_namee);
-                           found3= bookSelectedAppointment(user_input, bookings, doctorList, area_of_expertise, patient, pid, doctor_namee, buid);
+                            found3= bookSelectedAppointment(user_input, bookings, doctorList, area_of_expertise, patient, pid, doctor_namee, buid);
                         }while (!found3);
                     }
                 }while (!found);

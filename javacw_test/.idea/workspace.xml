@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8521ff05-7ed9-4f06-97c3-3098d7e39d9c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../coursework/coursework.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cw_java/cw_java.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Appointment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Doctor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/booking.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/patient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/treatment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/AppointmentTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/DoctorTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/bookingTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/patientTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2uXPJDMGVKMzpWJ4PBV4iIJ8ueh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "JUnit.AppointmentTest.testGetDate.executor": "Run",
+    "JUnit.AppointmentTest.testGetTreatmentName.executor": "Run",
+    "JUnit.AppointmentTest.testSetStatus.executor": "Run",
+    "JUnit.DoctorTest.getName.executor": "Run",
+    "JUnit.DoctorTest.testGetAvailableAppointments.executor": "Run",
+    "JUnit.DoctorTest.testGetName.executor": "Run",
+    "JUnit.DoctorTest.testGetSpecialization.executor": "Run",
+    "JUnit.DoctorTest.testGetTreatment.executor": "Run",
+    "JUnit.DoctorTest.testShowAvailableAppointments.executor": "Run",
+    "JUnit.bookingTest.testBookAppointment.executor": "Run",
+    "JUnit.bookingTest.testChangeAppointmentStatus.executor": "Run",
+    "JUnit.bookingTest.testGenerateClinicReport.executor": "Run",
+    "JUnit.bookingTest.testRemoveAppointment.executor": "Run",
+    "JUnit.bookingTest.testSearchByDoctorName.executor": "Run",
+    "JUnit.bookingTest.testSearchBySpecialization.executor": "Run",
+    "JUnit.patientTest.getBiud.executor": "Run",
+    "JUnit.patientTest.get_pat_id.executor": "Run",
+    "JUnit.patientTest.get_pat_name.executor": "Run",
+    "JUnit.patientTest.testEquals.executor": "Run",
+    "JUnit.patientTest.testHashCode.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/rayan/IdeaProjects/javacw_test/src/main/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rayan\IdeaProjects\javacw_test\src\main\java" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.patientTest.testEquals">
+    <configuration name="DoctorTest.testGetTreatment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="javacw_test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="DoctorTest" />
+      <option name="METHOD_NAME" value="testGetTreatment" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DoctorTest.testShowAvailableAppointments" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="javacw_test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="DoctorTest" />
+      <option name="METHOD_NAME" value="testShowAvailableAppointments" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="patientTest.getBiud" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="javacw_test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="patientTest" />
+      <option name="METHOD_NAME" value="getBiud" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="patientTest.get_pat_id" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="javacw_test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="patientTest" />
+      <option name="METHOD_NAME" value="get_pat_id" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="patientTest.testEquals" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="javacw_test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="patientTest" />
+      <option name="METHOD_NAME" value="testEquals" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.patientTest.testEquals" />
+        <item itemvalue="JUnit.patientTest.getBiud" />
+        <item itemvalue="JUnit.patientTest.get_pat_id" />
+        <item itemvalue="JUnit.DoctorTest.testShowAvailableAppointments" />
+        <item itemvalue="JUnit.DoctorTest.testGetTreatment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.24978.46" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-IU-243.24978.46" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8521ff05-7ed9-4f06-97c3-3098d7e39d9c" name="Changes" comment="" />
+      <created>1742391873545</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742391873545</updated>
+      <workItem from="1742391874698" duration="5314000" />
+      <workItem from="1742501956354" duration="1239000" />
+      <workItem from="1742565265541" duration="3096000" />
+      <workItem from="1742824924536" duration="349000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
