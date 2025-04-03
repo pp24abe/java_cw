@@ -178,46 +178,52 @@ public class booking extends Doctor{
 
     }
 
-    public void changeAppointmentStatus(String BookinID, String status) {
-
+    public void changeAppointmentStatus(String BookingID, String status) {
         if (bookedAppointments.isEmpty()) {
             System.out.println("No appointments booked.");
+            return; // Return early if no appointments exist
         }
+
         boolean found = false;
+
         for (Map.Entry<patient, List<Appointment>> entry : bookedAppointments.entrySet()) {
             patient patient = entry.getKey();
-            if (patient.getBiud().equalsIgnoreCase(BookinID)) {
-                for (Appointment appointment : entry.getValue()) {
-                    if (appointment.getBuid().equalsIgnoreCase(BookinID)) {
-                        if (appointment.getStatus().equalsIgnoreCase("BOOKED")) {
+
+            for (Appointment appointment : entry.getValue()) {
+                found = true;
+                if (appointment.getBuid().equalsIgnoreCase(BookingID)) {
+                    // Found an appointment with the given BookingID
+
+                    switch (appointment.getStatus().toUpperCase()) {
+                        case "BOOKED":
                             appointment.setStatus(status);
                             appointment.changed(0);
-                        } else if (appointment.getStatus().equalsIgnoreCase("CANCELLED")) {
-                            System.out.println("Your appointment has been cancelled, and you cannot change it.");
+                            System.out.println("✅ Appointment status updated successfully.");
+                            return; // Exit after updating
+
+                        case "CANCELLED":
+                            System.out.println("❌ Your appointment has been cancelled, and you cannot change it.");
                             appointment.changed(1);
-                            break;
-                        } else if (appointment.getStatus().equalsIgnoreCase("ATTENDED")) {
-                            System.out.println("Your appointment has already been marked as attended, and you cannot change it.");
+                            return;
+
+                        case "ATTENDED":
+                            System.out.println("❌ Your appointment has already been marked as attended, and you cannot change it.");
                             appointment.changed(1);
-                            break;
-                        }
+                            return;
+
+                        default:
+                            System.out.println("❌ Unknown appointment status.");
+                            return;
                     }
                 }
-                if (!patient.getBiud().equals(BookinID)) {
-                    System.out.println("Error: BookingID does not match.");
-                }
-                found = true;
-                break;
             }
         }
 
         if (!found) {
-            System.out.println("❌ No appointment found for patient with BookingID: " + BookinID);
+            System.out.println("❌ No appointment found for BookingID: " + BookingID);
         }
-
-
-
     }
+
     public void viewBooking(String bookingId ) {
         if (bookedAppointments.isEmpty()) {
             System.out.println("No appointments booked.");
@@ -252,10 +258,6 @@ public class booking extends Doctor{
                 found = true;
                 break;
             }
-        }
-        if (!found) {
-            System.out.println("❌ No appointment found for patient with ID : " + bookingId);
-
         }
 
 

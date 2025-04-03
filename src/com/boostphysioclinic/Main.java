@@ -309,6 +309,7 @@ public class Main extends booking {
 
         System.out.println("\nEnter Booking ID: \n");
         String BookingId = user_input.nextLine();
+        System.out.println(BookingId);
         changestatus(user_input,bookings ,BookingId);
 
     }
