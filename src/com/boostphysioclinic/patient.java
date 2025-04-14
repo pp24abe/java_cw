@@ -1,5 +1,4 @@
 package com.boostphysioclinic;
-
 import java.util.Objects;
 
 public class patient {
