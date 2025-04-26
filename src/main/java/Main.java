@@ -1,5 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main extends booking {
     public Main(List<Doctor> doctors) {
@@ -36,19 +38,19 @@ public class Main extends booking {
         doctorList.add(new Doctor("John", "Physiotherapist", "78 Willow Street", "92345678901", Arrays.asList(
                 new Appointment("Week 1: Thursday 8th May 2025", "08:30-11:30", "Dr. John", "Physiotherapist", 0,"","","",0),
                 new Appointment("Week 2: Friday 16th May 2025", "09:00-12:00", "Dr. John", "Physiotherapist", 0,"","","",0),
-                new Appointment("Week 3: Monday 26th May 2025", "10:30-13:30", "Dr. John", "Physiotherapist", 0,"","","",0),
+                new Appointment("Week 3: Monday 26th May 2025", "09:30-12:30", "Dr. John", "Physiotherapist", 0,"","","",0),
                 new Appointment("Week 4: Tuesday 3rd June 2025", "11:00-14:00", "Dr. John", "Physiotherapist", 0,"","","",0)
         ),"Massage"));
 
         doctorList.add(new Doctor("Paul", "Physiotherapist", "90 Birchwood Road", "93456789012", Arrays.asList(
-                new Appointment("Week 1: Friday 9th May 2025", "09:30-12:30", "Dr. Paul", "Physiotherapist", 0,"","","",0),
+                new Appointment("Week 1: Thursday 8th May 2025", "08:30-09:30", "Dr. Paul", "Physiotherapist", 0,"","","",0),
                 new Appointment("Week 2: Monday 19th May 2025", "10:00-13:00", "Dr. Paul", "Physiotherapist", 0,"","","",0),
                 new Appointment("Week 3: Tuesday 27th May 2025", "11:00-14:00", "Dr. Paul", "Physiotherapist", 0,"","","",0),
                 new Appointment("Week 4: Wednesday 4th June 2025", "12:00-15:00", "Dr. Paul", "Physiotherapist", 0,"","","",0)
         ),"Neural Mobilisation"));
 
         // Patients
-        patient patient1 = new patient("Alice Johnson", "10 Green St, London", "9123456789", 168, "20250305123001");
+        patient patient1 = new patient("Alice Johnson", "10 Green St, London", "8078157258", 168, "20250305123001");
         patient patient2 = new patient("Bob Williams", "20 Red St, Manchester", "9234567890", 890, "20250306104502");
         patient patient3 = new patient("Charlie Brown", "30 Blue St, Birmingham", "9345678901", 901, "20250307153003");
         patient patient4 = new patient("Henry Smith", "33 Blue St, Birmingham", "9456789012", 567, "202503071563004");
@@ -105,7 +107,6 @@ public class Main extends booking {
                 }
             }
 
-
             switch (option) {
                 case 1:
                     makeAppointment(user_input, bookings, doctorList);
@@ -136,8 +137,6 @@ public class Main extends booking {
     private static void makeAppointment(Scanner user_input, booking bookings, List<Doctor> doctorList) {
         System.out.print("\nPlease enter the patient's full name: ");
         String user_name = user_input.nextLine();
-        System.out.print("Please enter the patient's address: ");
-        String user_address = user_input.nextLine();
         System.out.print("Please enter the patient's phone number: ");
         String telephone = user_input.nextLine();
         if (telephone.length() != 10) {
@@ -146,11 +145,26 @@ public class Main extends booking {
                 telephone = user_input.nextLine();
             }while (telephone.length() != 10);
         }
-        patient patient = new patient(user_name,user_address,telephone,0,"");
-        //String uid = (user_name.length() > 3 ? user_name.substring(0, 3) : user_name) + telephone.substring(telephone.length() - 3);
-        System.out.println("\n🔹 UNIQUE ID GENERATED: " + patient.hashCode());
-        int pid = patient.hashCode();
-        System.out.println("⚠️ Please save or remember this ID for future use.");
+        patient existingPatient = bookings.findPatientByName(user_name,telephone);
+        patient patient;
+        int pid;
+
+        if (existingPatient != null) {
+            System.out.println("Welcome back, " + user_name + "! We found your existing information.");
+            patient = existingPatient;
+            pid = patient.get_pat_id();
+            System.out.println("🔹 PATIENT ID: " + pid);
+        } else {
+            System.out.println("⚠️ Patient record not found. Please register as a new user to continue with your appointment booking.");
+            System.out.print("Please enter the patient's address: ");
+            String user_address = user_input.nextLine();
+
+            patient = new patient(user_name, user_address, telephone, 0, "");
+            System.out.println("\n🔹 UNIQUE ID GENERATED: " + patient.hashCode());
+            pid = patient.hashCode();
+            System.out.println("⚠️ Please save or remember this ID for future use.");
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String buid = sdf.format(new Date());
         System.out.println("\nHow would you like to book an appointment?");
@@ -212,37 +226,59 @@ public class Main extends booking {
         Doctor selectedDoctor = null;
         String doctorname="";
         for (Doctor doctor : doctorList) {
-
             if (specialization == null || doctor.getSpecialization().equalsIgnoreCase(specialization)) {
-
                 if (doctor.getName().equalsIgnoreCase(doctor_namee)) {
                     selectedDoctor = doctor;
                     doctorname=doctor.getName();
                     break;
                 }
             }
-
         }
+
         if (selectedDoctor == null) {
             System.out.println("❌ No doctor found.");
             return false;
         }
-        int choice1;
-        do {
-            System.out.print("\nEnter the week of appointment for Dr." + doctorname + " : ");
-            choice1 = user_input.nextInt();
-            user_input.nextLine();  // Consume newline
 
-            if (choice1 < 1 || choice1 > selectedDoctor.getAvailableAppointments().size()) {
-                System.out.println("❌ Invalid selection. Please enter a valid week.");
+        List<Integer> availableSlotIndices = new ArrayList<>();
+        List<Appointment> allAppointments = selectedDoctor.getAvailableAppointments();
+
+        for (int i = 0; i < allAppointments.size(); i++) {
+            Appointment appointment = allAppointments.get(i);
+            String appointmentKey = doctor_namee + "_" + appointment.getDate() + "_" + appointment.getTime();
+            if (!bookings.isAppointmentBooked(appointmentKey)) {
+                availableSlotIndices.add(i);
             }
-        } while (choice1 < 1 || choice1 > selectedDoctor.getAvailableAppointments().size());
+        }
 
+        if (availableSlotIndices.isEmpty()) {
+            System.out.println("❌ No available appointments for Dr. " + doctorname);
+            return false;
+        }
 
+        int selectedIndex;
+        do {
+            System.out.println("\nAvailable appointments for Dr. " + doctorname + ":");
+            for (int i = 0; i < availableSlotIndices.size(); i++) {
+                Appointment apt = allAppointments.get(availableSlotIndices.get(i));
+                System.out.println((i + 1) + ". 📅 " + apt.getDate() + " | ⏰ " + apt.getTime());
+            }
+
+            System.out.print("\nSelect an appointment (1-" + availableSlotIndices.size() + "): ");
+            int userChoice = user_input.nextInt();
+            user_input.nextLine();
+
+            if (userChoice < 1 || userChoice > availableSlotIndices.size()) {
+                System.out.println("❌ Invalid selection. Please try again.");
+                selectedIndex = -1;
+            } else {
+                selectedIndex = availableSlotIndices.get(userChoice - 1);
+            }
+        } while (selectedIndex == -1);
 
         System.out.println("\n");
-        Appointment chosenAppointment = selectedDoctor.getAvailableAppointments().get(choice1 - 1);
-        bookings.bookAppointment(patient, selectedDoctor, chosenAppointment.getDate(), chosenAppointment.getTime(),pid,doctor_namee,buid);
+        Appointment chosenAppointment = selectedDoctor.getAvailableAppointments().get(selectedIndex);
+        bookings.bookAppointment(patient, selectedDoctor, chosenAppointment.getDate(), chosenAppointment.getTime(), pid, doctor_namee, buid);
         return true;
     }
 
@@ -262,46 +298,132 @@ public class Main extends booking {
 
     private static void viewbooking(Scanner user_input, booking bookings) {
         String patname;
-
+        int pid;
         if (!bookings.bookingchecking().equals("empty")) {
             System.out.println("Enter Patient Name: ");
             patname = user_input.nextLine();
+            System.out.println("Enter the Patient ID: ");
+            pid = user_input.nextInt();
+            user_input.nextLine();
             System.out.println("\n");
-            boolean found = bookings.viewBookings(patname); // Call it once
-            if (found) {  // Only ask for status update if an appointment is found
-                System.out.println("Do you want to update the status of an appointment?");
-                System.out.println("Enter your choice:");
-                System.out.println("1. Yes");
-                System.out.println("2. No");
-                System.out.println("Your choice:");
-                int choice = user_input.nextInt();
-                user_input.nextLine();  // Consume newline
+            boolean found = bookings.viewBookings(patname,pid);
+            if (found) {
 
-                if (choice == 1) {
-                    search(user_input, bookings);
+                    System.out.println("What would you like to do with this appointment?");
+                    System.out.println("Enter your choice:");
+                    System.out.println("1. Update appointment status");
+                    System.out.println("2. Reschedule appointment");
+                    System.out.println("3. Return to main menu");
+                    System.out.println("Your choice:");
+                    int choice = user_input.nextInt();
+                    user_input.nextLine();
+
+                    switch (choice) {
+                        case 1:
+                            search(user_input, bookings);
+                            break;
+                        case 2:
+                            rescheduleAppointment(user_input, bookings, patname, pid);
+                            break;
+                        case 3:
+                            return;
+                        default:
+                            System.out.println("❌ Invalid choice.");
+                    }
                 }
-            }
+
+
         } else {
             System.out.println("No booking found.");
         }
     }
-    private static void changestatus(Scanner user_input, booking bookings,String bookingId) {
-        System.out.println("\nEnter From The Option Below ");
-        System.out.println("1.cancel the appointment");
-        System.out.println("2.make the appointment as attended");
-        System.out.println("\nYour Choice :");
-        int choice = user_input.nextInt();
-        switch (choice) {
-            case 1:
-                bookings.changeAppointmentStatus(bookingId, "CANCELLED");
-                break;
-            case 2:
-                bookings.changeAppointmentStatus(bookingId, "ATTENDED");
-                break;
-            default:
-                System.out.println("❌ Invalid choice.");
+
+    // Add a new method for rescheduling appointments
+    private static void rescheduleAppointment(Scanner user_input, booking bookings, String patientName, int pid) {
+        System.out.println("\nEnter Booking ID for the appointment you want to reschedule: ");
+        String bookingId = user_input.nextLine();
+
+        // Get patient and appointment details
+        patient p = bookings.searchBypatname(bookingId);
+
+        if (p == null) {
+            System.out.println("❌ No appointment found with the given Booking ID.");
+            return;
         }
-        bookings.viewBooking(bookingId);
+
+        // Check if the appointment belongs to the current patient
+        if (!p.get_pat_name().equalsIgnoreCase(patientName) || p.get_pat_id() != pid) {
+            System.out.println("❌ This appointment does not belong to the specified patient.");
+            return;
+        }
+
+        // First cancel the existing appointment
+        if (bookings.prepareForReschedule(bookingId)) {
+            System.out.println("✅ Current appointment has been cancelled for rescheduling.");
+
+            // Now book a new appointment for the same patient with the same doctor
+            String doctorName = bookings.getDoctorNameFromBooking(bookingId);
+            if (doctorName != null) {
+                List<Doctor> doctorList = bookings.getDoctorsList();
+                Doctor selectedDoctor = null;
+
+                for (Doctor doctor : doctorList) {
+                    if (doctor.getName().equalsIgnoreCase(doctorName)) {
+                        selectedDoctor = doctor;
+                        break;
+                    }
+                }
+
+                if (selectedDoctor != null) {
+                    System.out.println("\nRescheduling appointment with Dr. " + doctorName);
+                    bookings.showtimetable(doctorName);
+
+                    // Use existing method to book a new appointment
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMddHHmmss");
+                    String newBuid = sdf.format(new java.util.Date());
+
+                    boolean success = bookSelectedAppointment(user_input, bookings, doctorList,
+                            selectedDoctor.getSpecialization(), p, pid, doctorName, newBuid);
+
+                    if (success) {
+                        System.out.println("✅ Appointment successfully rescheduled!");
+                    } else {
+                        System.out.println("❌ Failed to reschedule appointment. Please try again later.");
+                    }
+                } else {
+                    System.out.println("❌ Doctor information could not be retrieved.");
+                }
+            } else {
+                System.out.println("❌ Doctor information could not be retrieved from the booking.");
+            }
+        } else {
+            System.out.println("❌ Failed to prepare the appointment for rescheduling.");
+        }
+    }
+    private static void changestatus(Scanner user_input, booking bookings,String bookingId) {
+
+
+            System.out.println("\nEnter From The Option Below ");
+            System.out.println("1.cancel the appointment");
+            System.out.println("2.make the appointment as attended");
+            System.out.println("\nYour Choice :");
+            int choice = user_input.nextInt();
+            switch (choice) {
+                case 1:
+                    bookings.changeAppointmentStatus(bookingId, "CANCELLED");
+                    break;
+                case 2:
+                    bookings.changeAppointmentStatus(bookingId, "ATTENDED");
+                    break;
+                default:
+                    System.out.println("❌ Invalid choice.");
+            }
+            boolean change= bookings.viewBooking(bookingId);
+            if (change) {
+                bookings.viewBooking(bookingId);
+            }
+
+
         user_input.nextLine();
     }
     private static void search(Scanner user_input, booking bookings) {
@@ -311,5 +433,4 @@ public class Main extends booking {
         changestatus(user_input,bookings ,BookingId);
 
     }
-
 }

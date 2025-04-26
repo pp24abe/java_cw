@@ -27,7 +27,7 @@ class AppointmentTest {
 
     @Test
     void testGetUid() {
-        assertEquals("", appointment.getpid());
+        assertEquals(0, appointment.getpid());
     }
 
     @Test

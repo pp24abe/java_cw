@@ -1,8 +1,6 @@
-
-package com.boostphysioclinic;
 import java.util.List;
 
-public class Doctor {
+class Doctor {
     private String name;
     private String specialization;
     private String address;
@@ -23,6 +21,7 @@ public class Doctor {
 
     }
 
+    // Getters
     public String getName() {
         return name;
     }

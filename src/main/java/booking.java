@@ -1,13 +1,13 @@
-package com.boostphysioclinic;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class booking {
+class booking {
     private List<Doctor> doctors;
     private Map<String, Appointment> bookedAppointments;
     private Map<String, List<Appointment>> patientAppointments;
-    private List<patient> registeredPatients;
+    private List<patient> registeredPatients; // To keep track of all patients
 
     public booking(List<Doctor> doctors) {
         this.doctors = doctors;
@@ -45,9 +45,9 @@ public class booking {
     }
 
     public void showtimetable(String doctorName) {
+
         for (Doctor doctor : doctors) {
             if (doctor.getName().equalsIgnoreCase(doctorName)) {
-                System.out.println("\nAvailable Appointments for Dr. " + doctor.getName() + ":");
                 List<Appointment> availableAppointments = doctor.getAvailableAppointments();
 
                 Map<String, Boolean> weekHasAvailableSlot = new HashMap<>();
@@ -70,7 +70,7 @@ public class booking {
                     String appointmentKey = doctorName + "_" + appointment.getDate() + "_" + appointment.getTime();
 
                     if (weekHasAvailableSlot.get(week) && !bookedAppointments.containsKey(appointmentKey)) {
-                        System.out.println((counter) + ". 📅 " + appointment.getDate() + " | ⏰ " + appointment.getTime());
+                      //  System.out.println((counter) + ". 📅 " + appointment.getDate() + " | ⏰ " + appointment.getTime());
                         counter++;
                     }
                 }
@@ -214,34 +214,38 @@ public class booking {
                     System.out.println("❌ Invalid choice.");
                 }
             } else {
-                System.out.println("❌ No appointments found for this patient.");
+//                System.out.println("❌ No appointments found for this patient.");
             }
         } else {
             System.out.println("❌ No appointments found for this patient.");
         }
     }
 
-    public boolean viewBookings(String patientName) {
+    public boolean viewBookings(String patientName,int pid) {
         boolean found = false;
         for (Map.Entry<String, List<Appointment>> entry : patientAppointments.entrySet()) {
-            if (entry.getKey().startsWith(patientName + "_")) {
+            if (entry.getKey().toLowerCase().startsWith(patientName.toLowerCase() + "_")) {
                 List<Appointment> appointments = entry.getValue();
                 if (!appointments.isEmpty()) {
                     System.out.println("\n📋 Appointments for " + patientName + ":");
                     for (Appointment apt : appointments) {
-                        System.out.println("\n✅ APPOINTMENT STATUS SUCCESSFULLY SET TO "+apt.getStatus()+"!");
-                        System.out.println("\n****************************************");
-                        System.out.println("\t\tCHANGE STATUS RECEIPT");
-                        System.out.println("****************************************");
-                        System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + apt.getDoctor());
-                        System.out.println("🆔 UID:             " + apt.getpid());
-                        System.out.println("🆔 Booking ID:      " + apt.getBuid());
-                        System.out.println("🩺 TREATMENT NAME:  " + apt.getTreatmentname());
-                        System.out.println("🩺Specialization:   " + apt.getSpecialization());
-                        System.out.println("📅Appointment Date: " + apt.getDate());
-                        System.out.println("⏲️Appointment Time: " + apt.getTime());
-                        System.out.println("❓Appointment Status: " + (apt.getStatus() != null ? apt.getStatus() : "BOOKED"));
-                        System.out.println("----------------------------------------\n\n");
+                        if( apt.getpid() == pid) {
+                            System.out.println("\n****************************************");
+                            System.out.println("\t\tBOOKING RECEIPT");
+                            System.out.println("****************************************");
+                            System.out.println("👨🏻‍⚕️ Doctor Name:     Dr. " + apt.getDoctor());
+                            System.out.println("🆔 UID:             " + apt.getpid());
+                            System.out.println("🆔 Booking ID:      " + apt.getBuid());
+                            System.out.println("🩺 TREATMENT NAME:  " + apt.getTreatmentname());
+                            System.out.println("🩺Specialization:   " + apt.getSpecialization());
+                            System.out.println("📅Appointment Date: " + apt.getDate());
+                            System.out.println("⏲️Appointment Time: " + apt.getTime());
+                            System.out.println("❓Appointment Status: " + (apt.getStatus() != null ? apt.getStatus() : "BOOKED"));
+                            System.out.println("----------------------------------------\n\n");
+                        }
+                        else {
+                          //  System.out.println("No booking found for this patient with the given id");
+                        }
                     }
                     found = true;
                 }
@@ -249,6 +253,8 @@ public class booking {
         }
         if (!found) {
             System.out.println("❌ No appointments found for " + patientName);
+        }else {
+            return true;
         }
         return found;
     }
@@ -277,7 +283,17 @@ public class booking {
         System.out.println("❌ No appointment found with Booking ID: " + bookingId);
         return false;
     }
+  public String statusBooking(int bookingId) {
+      for (Map.Entry<String, List<Appointment>> entry : patientAppointments.entrySet()) {
+          for (Appointment appointment : entry.getValue()) {
+              if (appointment.getBuid() != null && appointment.getpid()==bookingId) {
 
+                  return appointment.getStatus();
+              }
+          }
+      }
+      return "Booking not found";
+  }
     public void changeAppointmentStatus(String bookingId, String newStatus) {
         for (Map.Entry<String, List<Appointment>> entry : patientAppointments.entrySet()) {
             for (Appointment appointment : entry.getValue()) {
@@ -286,6 +302,21 @@ public class booking {
                         case "BOOKED":
                             appointment.setStatus(newStatus);
                             appointment.changed(0);
+                            if (newStatus.equalsIgnoreCase("CANCELLED")) {
+                                String appointmentKey = appointment.getDoctor() + "_" + appointment.getDate() + "_" + appointment.getTime();
+                                bookedAppointments.remove(appointmentKey);
+                                Doctor doctor = findDoctorByName(appointment.getDoctor());
+                                if (doctor != null) {
+                                    for (Appointment doctorAppointment : doctor.getAvailableAppointments()) {
+                                        if (doctorAppointment.getDate().equals(appointment.getDate()) &&
+                                                doctorAppointment.getTime().equals(appointment.getTime())) {
+                                            System.out.println("✅ Appointment slot has been released and is now available for booking.");
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
                             System.out.println("✅ Appointment status updated successfully.");
                             return;
 
@@ -344,9 +375,9 @@ public class booking {
         return false;
     }
 
-    public patient findPatientByName(String patientName) {
+    public patient findPatientByName(String patientName,String telephone) {
         for (patient p : registeredPatients) {
-            if (p.get_pat_name().equalsIgnoreCase(patientName)) {
+            if (p.get_pat_name().equalsIgnoreCase(patientName)&& p.getPat_phno().equalsIgnoreCase(telephone)) {
                 return p;
             }
         }
@@ -375,7 +406,7 @@ public class booking {
         System.out.println("                               🏥 CLINIC REPORT - APPOINTMENTS LIST");
         System.out.println("============================================================================================================");
 
-        System.out.printf("| %-20s | %-15s | %-25s | %-9s|\n", "Doctor", "Patient", "Date & Time", "Status");
+        System.out.printf("| %-20s | %-15s | %-45s | %-9s|\n", "Doctor", "Patient", "Date & Time", "Status");
         System.out.println("------------------------------------------------------------------------------------------------------------");
 
         for (Map.Entry<String, List<Appointment>> entry : doctorAppointments.entrySet()) {
@@ -399,6 +430,7 @@ public class booking {
             }
         }
 
+        // Sort doctors by number of attended appointments
         List<Map.Entry<String, List<Appointment>>> sortedDoctors = new ArrayList<>(doctorAppointments.entrySet());
         sortedDoctors.sort((d1, d2) -> Long.compare(
                 d2.getValue().stream().filter(a -> a.getStatus().equalsIgnoreCase("ATTENDED")).count(),
@@ -427,5 +459,43 @@ public class booking {
             }
         }
         return null;
+    }
+    public boolean prepareForReschedule(String bookingId) {
+        for (Map.Entry<String, List<Appointment>> entry : patientAppointments.entrySet()) {
+            for (Appointment appointment : entry.getValue()) {
+                if (appointment.getBuid() != null && appointment.getBuid().equals(bookingId)) {
+                    if (appointment.getStatus().equalsIgnoreCase("BOOKED")) {
+                        String appointmentKey =  appointment.getDoctor()+ "_" + appointment.getDate() + "_" + appointment.getTime();
+                        bookedAppointments.remove(appointmentKey);
+
+                        // ✅ Mark as CANCELLED instead of BOOKED
+                        appointment.setStatus("CANCELLED");
+
+                        return true;
+                    } else {
+                        System.out.println("❌ Only appointments with 'BOOKED' status can be rescheduled.");
+                        return false;
+                    }
+                }
+            }
+        }
+        System.out.println("❌ No appointment found with Booking ID: " + bookingId);
+        return false;
+    }
+
+
+    public String getDoctorNameFromBooking(String bookingId) {
+        for (Map.Entry<String, List<Appointment>> entry : patientAppointments.entrySet()) {
+            for (Appointment appointment : entry.getValue()) {
+                if (appointment.getBuid() != null && appointment.getBuid().equals(bookingId)) {
+                    return appointment.getDoctor();
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Doctor> getDoctorsList() {
+        return doctors;
     }
 }

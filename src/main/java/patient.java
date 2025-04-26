@@ -1,8 +1,6 @@
 import java.util.Objects;
 
-public class patient {
-
-
+class patient {
     private String pat_name;
     private  int pat_id;
     private  String pat_address;
@@ -16,8 +14,6 @@ public class patient {
         this.biud = buid;
     }
 
-
-
     public String get_pat_name() {
         return pat_name;
     }
@@ -27,7 +23,9 @@ public class patient {
     public String getBiud(){
         return biud;
     }
-
+    public String getPat_phno(){
+        return pat_phno;
+    }
 
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -41,6 +39,3 @@ public class patient {
         return Objects.hash(pat_name, pat_phno);
     }
 }
-
-
-

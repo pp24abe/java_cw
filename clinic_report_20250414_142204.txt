@@ -1,0 +1,14 @@
+CLINIC REPORT (Generated on Mon Apr 14 14:22:04 BST 2025)
+===================
+
+Total Appointments: 14
+Scheduled Appointments: 14
+Attended Appointments: 0
+Cancelled Appointments: 0
+
+Appointments by Doctor:
+Dr. Smith: 3 appointments
+Dr. Mathew: 3 appointments
+Dr. John: 2 appointments
+Dr. Punnoose: 3 appointments
+Dr. Paul: 3 appointments

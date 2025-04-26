@@ -43,7 +43,6 @@ class DoctorTest {
     @Test
     void testShowAvailableAppointments() {
         doctor.showAvailableAppointments();
-        // This prints available appointments to the console.
-        // If needed, you can capture console output using System.setOut(new PrintStream(...))
+
     }
 }
